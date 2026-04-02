@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lube Bypass — Doomsday Client Bypass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off: #f5f5f3;
+      --light: #ebebeb;
+      --mid: #c8c8c8;
+      --dark: #1a1a1a;
+      --ink: #111111;
+      --accent: #0a0a0a;
+      --green: #22c55e;
+      --green-soft: #dcfce7;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--light);
+      animation: slideDown 0.6s ease both;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--ink);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--ink);
+      color: var(--white) !important;
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-size: 0.85rem !important;
+      font-weight: 500 !important;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: #333 !important; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
+
+    /* Live badge in nav */
+    .nav-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid #86efac;
+      background: var(--green-soft);
+      color: #16a34a;
+      transition: all 0.4s ease;
+    }
+    .nav-live-badge.detected {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #dc2626;
+    }
+    .nav-live-badge.updating {
+      background: #fef9c3;
+      border-color: #fde68a;
+      color: #b45309;
+    }
+    .nav-live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, #e8fce8 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 20% 80%, #f0f0f0 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 80% 70%, #f8f8f8 0%, transparent 60%);
+      z-index: 0;
+    }
+
+    .hero-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.06);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .hero-circle:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s; }
+    .hero-circle:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 8%; animation-delay: -2s; }
+    .hero-circle:nth-child(3) { width: 150px; height: 150px; bottom: 15%; left: 15%; animation-delay: -4s; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50%       { transform: scale(1.05); opacity: 1; }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid #86efac;
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #16a34a;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.3s ease both;
+      transition: all 0.4s ease;
+    }
+    .hero-badge.detected {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #dc2626;
+    }
+    .hero-badge.updating {
+      background: #fef9c3;
+      border-color: #fde68a;
+      color: #b45309;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s 0.45s ease both;
+    }
+    .hero h1 .accent {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--ink);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #666;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.75s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      border: 2px solid var(--ink);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--ink);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid var(--light);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--mid); transform: translateY(-2px); }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 80px;
+      border: 1px solid var(--light);
+      border-radius: 16px;
+      overflow: hidden;
+      animation: fadeUp 0.7s 0.9s ease both;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      padding: 20px 48px;
+      border-right: 1px solid var(--light);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      transition: color 0.4s;
+    }
+    .stat-num .green  { color: var(--green); }
+    .stat-num .red    { color: var(--red); }
+    .stat-num .yellow { color: var(--yellow); }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #999;
+      font-weight: 400;
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: #777;
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    /* ── PRODUCTS ── */
+    .products { background: var(--off); }
+    .products-inner { max-width: 1200px; margin: 0 auto; padding: 100px 60px; }
+
+    .products-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--light);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+      cursor: pointer;
+    }
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), #86efac);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover::before { transform: scaleX(1); }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      border-color: transparent;
+    }
+
+    .product-card.featured {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--white);
+    }
+    .product-card.featured::before {
+      background: linear-gradient(90deg, var(--green), #86efac);
+      transform: scaleX(1);
+    }
+
+    .product-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .product-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--off);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .product-card.featured .product-icon { background: rgba(255,255,255,0.1); }
+
+    .product-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .badge-popular { background: var(--green-soft); color: #16a34a; }
+    .badge-new     { background: #fef9c3; color: #854d0e; }
+    .product-card.featured .badge-popular { background: rgba(34,197,94,0.2); color: var(--green); }
+
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .product-card.featured .product-desc { color: rgba(255,255,255,0.55); }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: #555;
+    }
+    .product-card.featured .features-list li { color: rgba(255,255,255,0.7); }
+
+    .feat-check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feat-check svg { width: 10px; height: 10px; stroke: #16a34a; }
+    .product-card.featured .feat-check { background: rgba(34,197,94,0.2); }
+    .product-card.featured .feat-check svg { stroke: var(--green); }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--light);
+    }
+    .product-card.featured .product-footer { border-top-color: rgba(255,255,255,0.1); }
+
+    .product-price {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+    }
+    .product-price sup { font-size: 0.9rem; font-weight: 600; vertical-align: super; font-family: 'DM Sans', sans-serif; }
+    .product-price sub { font-size: 0.75rem; font-weight: 400; vertical-align: baseline; color: #aaa; font-family: 'DM Sans', sans-serif; }
+    .product-card.featured .product-price sub { color: rgba(255,255,255,0.4); }
+
+    .buy-btn {
+      background: var(--ink);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .buy-btn:hover { background: #333; transform: translateY(-1px); }
+    .product-card.featured .buy-btn { background: var(--green); color: var(--white); }
+    .product-card.featured .buy-btn:hover { background: #16a34a; }
+
+    /* ── STATUS SECTION ── */
+    .status-section { padding: 80px 60px; }
+
+    .status-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--ink);
+      border-radius: 24px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .status-card::after {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 350px; height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%);
+    }
+
+    .status-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .status-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    .status-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+    }
+
+    .metric-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--green);
+      transition: color 0.4s ease;
+    }
+    .metric-value.white  { color: var(--white); }
+    .metric-value.red    { color: var(--red); }
+    .metric-value.yellow { color: var(--yellow); }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #86efac);
+      border-radius: 100px;
+      transition: width 0.8s ease, background 0.4s ease;
+    }
+
+    /* Last fetched indicator */
+    .last-fetched {
+      text-align: right;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 12px;
+      font-style: italic;
+      transition: opacity 0.3s;
+    }
+
+    /* Pulse animation on fresh data */
+    @keyframes flashMetric {
+      0%   { background: rgba(34,197,94,0.12); }
+      100% { background: rgba(255,255,255,0.04); }
+    }
+    .metric.flash { animation: flashMetric 0.8s ease; }
+
+    /* ── FEATURES ── */
+    .features-section { padding: 100px 60px; }
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .feature-item {
+      padding: 32px;
+      border: 1px solid var(--light);
+      border-radius: 16px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .feature-item:hover { border-color: var(--mid); transform: translateY(-2px); }
+
+    .feature-icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
+    .feature-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 8px; color: var(--ink); }
+    .feature-desc { font-size: 0.85rem; color: #999; line-height: 1.6; }
+
+    .na-pill {
+      display: inline-block;
+      background: var(--light);
+      color: #aaa;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* ── FAQ ── */
+    .faq-section { padding: 100px 60px; background: var(--off); }
+    .faq-inner { max-width: 720px; margin: 0 auto; }
+    .faq-list { margin-top: 50px; }
+    .faq-item { border-bottom: 1px solid var(--light); }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 24px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .faq-icon {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: var(--ink);
+      transition: background 0.2s, transform 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--ink); color: var(--white); }
+
+    .faq-a {
+      font-size: 0.875rem;
+      color: #777;
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
+
+    /* ── CTA ── */
+    .cta-section { padding: 100px 60px; text-align: center; }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+
+    .cta-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: -0.04em;
+      margin-bottom: 20px;
+    }
+    .cta-sub { color: #777; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--light);
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .footer-logo span { color: var(--green); }
+    .footer-links { display: flex; gap: 32px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: #aaa; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy { font-size: 0.75rem; color: #bbb; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 60px 24px; }
+      .products-inner { padding: 60px 24px; }
+      .products-header { flex-direction: column; gap: 20px; align-items: flex-start; }
+      .products-grid { grid-template-columns: 1fr; }
+      .status-card { grid-template-columns: 1fr; padding: 36px 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .faq-section { padding: 60px 24px; }
+      .cta-section { padding: 60px 24px; }
+      footer { flex-direction: column; gap: 24px; text-align: center; }
+      .stats-bar { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--light); }
+      .stat:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Lube<span>.</span>Bypass</a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#status">Status</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li>
+        <span class="nav-live-badge" id="nav-live-badge">
+          <span class="nav-live-dot"></span>
+          <span id="nav-live-text">Undetected</span>
+        </span>
+      </li>
+      <li><a href="#products" class="nav-cta">Buy Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-circle"></div>
+      <div class="hero-circle"></div>
+      <div class="hero-circle"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge">
+        <div class="badge-dot"></div>
+        <span id="hero-badge-text">Undetected · 1/1 Bypass Rate · Always Online</span>
+      </div>
+      <h1>The Cleanest<br /><span class="accent">Bypass</span><br />On The Market</h1>
+      <p class="hero-sub">Premium bypass solutions for Doomsday Client. Designed to keep you undetected — every single session, every single time.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">Shop Products</a>
+        <a href="#status" class="btn-secondary">View Status</a>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-num" id="stat-rate"><span class="green">1/1</span></div>
+          <div class="stat-label">Bypass Success Rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-detect">100%</div>
+          <div class="stat-label">Undetected</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Status Updates</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-live"><span class="green">Live</span></div>
+          <div class="stat-label">System Status</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products" id="products">
+    <div class="products-inner">
+      <div class="products-header reveal">
+        <div>
+          <div class="section-label">Our Products</div>
+          <h2 class="section-title">Choose Your Plan</h2>
+          <p class="section-desc">Two powerful bypass options to fit your needs.</p>
+        </div>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card reveal">
+          <div class="product-top">
+            <div class="product-icon">🧼</div>
+            <span class="product-badge badge-new">Starter</span>
+          </div>
+          <div class="product-name">Lube Cleaner</div>
+          <p class="product-desc">The essential bypass solution. Clean, lightweight, and reliable for everyday sessions with Doomsday Client.</p>
+          <ul class="features-list">
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Doomsday Bypass Support</li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Undetected Status</li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Feature: <span class="na-pill">N/A — Fill in</span></li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Feature: <span class="na-pill">N/A — Fill in</span></li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><sup>$</sup>??<sub>/mo</sub></div>
+            <a href="#" class="buy-btn">Buy Now</a>
+          </div>
+        </div>
+
+        <div class="product-card featured reveal">
+          <div class="product-top">
+            <div class="product-icon">🚀</div>
+            <span class="product-badge badge-popular">Most Popular</span>
+          </div>
+          <div class="product-name">Lube Bypass Pro</div>
+          <p class="product-desc">The ultimate bypass experience. Every feature unlocked, priority updates, and maximum performance for serious users.</p>
+          <ul class="features-list">
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Lube Cleaner</li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority Status Alerts</li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">N/A — Fill in</span></li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">N/A — Fill in</span></li>
+            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">N/A — Fill in</span></li>
+          </ul>
+          <div class="product-footer">
+            <div class="product-price"><sup>$</sup>??<sub>/mo</sub></div>
+            <a href="#" class="buy-btn">Buy Pro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-section" id="status">
+    <div class="status-card reveal">
+      <div>
+        <div class="section-label" style="color:rgba(255,255,255,0.3)">Bypass Status</div>
+        <div class="status-title">Always<br />Undetected.</div>
+        <p class="status-desc">Our bypass maintains a perfect 1/1 success record. We monitor status continuously and push updates the moment anything changes — so you're always safe.</p>
+      </div>
+      <div class="status-metrics">
+
+        <div class="metric" id="metric-rate">
+          <div>
+            <div class="metric-label">Bypass Success Rate</div>
+            <div class="progress-bar-wrap" style="width:200px; margin-top:10px;">
+              <div class="progress-bar" id="rate-bar" style="width:100%"></div>
+            </div>
+          </div>
+          <div class="metric-value" id="metric-rate-val">1 / 1</div>
+        </div>
+
+        <div class="metric" id="metric-detect">
+          <div class="metric-label">Detection Status</div>
+          <div class="metric-value" id="metric-detect-val">Undetected ✓</div>
+        </div>
+
+        <div class="metric" id="metric-updated">
+          <div class="metric-label">Last Updated</div>
+          <div class="metric-value white" id="metric-updated-val">Fetching…</div>
+        </div>
+
+        <div class="metric">
+          <div class="metric-label">Supported Client</div>
+          <div class="metric-value white">Doomsday Client</div>
+        </div>
+
+        <div class="last-fetched" id="last-fetched">Connecting to live status…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-section" id="features">
+    <div class="features-inner">
+      <div class="reveal">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Built for Performance</h2>
+        <p class="section-desc">Placeholder features — fill these in with your actual product capabilities.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-item reveal">
+          <span class="feature-icon">🔒</span>
+          <div class="feature-name">Feature One</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">⚡</span>
+          <div class="feature-name">Feature Two</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">🛡️</span>
+          <div class="feature-name">Feature Three</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">🔄</span>
+          <div class="feature-name">Feature Four</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">📡</span>
+          <div class="feature-name">Feature Five</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">🎯</span>
+          <div class="feature-name">Feature Six</div>
+          <div class="feature-desc">Description of this feature goes here. Replace with your actual feature info.</div>
+          <span class="na-pill">N/A — Fill in</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section" id="faq">
+    <div class="faq-inner">
+      <div class="reveal">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Common Questions</h2>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What is Lube Bypass?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Lube Bypass is a premium bypass service designed specifically for Doomsday Client, ensuring you remain undetected with a perfect 1/1 bypass success rate.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How does the bypass work?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Our bypass leverages advanced techniques to ensure Doomsday Client operates cleanly without triggering detection. We continuously update to stay ahead of patches.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What's the difference between Lube Cleaner and Lube Bypass Pro?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Lube Cleaner covers the essentials — solid bypass support and undetected status. Lube Bypass Pro unlocks all advanced features, priority alerts, and premium performance for power users.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How quickly will I get access after purchase?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Access is delivered automatically and near-instantly after your payment is confirmed. You'll receive everything you need to get started right away.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What if the bypass gets detected?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We monitor detection status around the clock. If anything changes, we push an immediate update and notify all users. Your safety is our top priority.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Ready to Stay<br />Undetected?</h2>
+      <p class="cta-sub">Join the cleanest bypass service for Doomsday Client. Perfect record. Always online.</p>
+      <a href="#products" class="btn-primary">Get Started Now</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">Lube<span>.</span>Bypass</a>
+    <ul class="footer-links">
+      <li><a href="#">Products</a></li>
+      <li><a href="#">Status</a></li>
+      <li><a href="#">FAQ</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 LubeBypass. All rights reserved.</div>
+  </footer>
+
+  <script>
+    /* ─────────────────────────────────────────────
+       CONFIGURATION — replace with your real values
+    ───────────────────────────────────────────── */
+    const JSONBIN_BIN_ID  = '69ce8ba1aaba882197bb31ff';   // e.g. '6643f1abacd3cb34a840...'
+    const JSONBIN_API_KEY = '$2a$10$sg4dLaGOolL8Z0nLk0Clk.uUV/FmkUSTtksb4Ey85t/sEuQ1a0DJ2';  // your JSONBin X-Master-Key
+    const POLL_INTERVAL   = 30000;           // refresh every 30 seconds
+
+    /* ─────────────────────────────────────────────
+       STATUS FETCH & UI UPDATE
+    ───────────────────────────────────────────── */
+    async function fetchStatus() {
+      try {
+        const res = await fetch(
+          `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`,
+          { headers: { 'X-Master-Key': JSONBIN_API_KEY } }
+        );
+        if (!res.ok) throw new Error('Fetch failed');
+        const data = await res.json();
+        applyStatus(data.record);
+        document.getElementById('last-fetched').textContent =
+          'Live · last synced ' + new Date().toLocaleTimeString();
+      } catch (e) {
+        document.getElementById('last-fetched').textContent =
+          'Could not reach status server — retrying…';
+        console.warn('Status fetch error:', e);
+      }
+    }
+
+    function applyStatus(record) {
+      /*
+        Expected JSONBin record shape:
+        {
+          "status": "Undetected",   // "Undetected" | "Detected" | "Updating"
+          "rate": "1/1",            // e.g. "1/1" or "0/1"
+          "note": "All good.",      // optional short note
+          "updated": "Just now"     // human-readable timestamp from your bot
+        }
+      */
+      const { status = 'Undetected', rate = '1/1', note, updated = 'Live' } = record;
+
+      const isDetected = status.toLowerCase() === 'detected';
+      const isUpdating = status.toLowerCase() === 'updating';
+
+      // ── Colours / classes ──
+      const colorClass = isDetected ? 'red' : isUpdating ? 'yellow' : 'green';
+      const badgeClass = isDetected ? 'detected' : isUpdating ? 'updating' : '';
+
+      // ── Nav badge ──
+      const navBadge = document.getElementById('nav-live-badge');
+      navBadge.className = 'nav-live-badge ' + badgeClass;
+      document.getElementById('nav-live-text').textContent = status;
+
+      // ── Hero badge ──
+      const heroBadge = document.getElementById('hero-badge');
+      heroBadge.className = 'hero-badge ' + badgeClass;
+      document.getElementById('hero-badge-text').textContent =
+        (isDetected ? '⚠ DETECTED' : isUpdating ? '⏳ Updating' : 'Undetected')
+        + ' · ' + rate + ' Bypass Rate · Always Online';
+
+      // ── Stats bar ──
+      document.getElementById('stat-rate').innerHTML =
+        `<span class="${colorClass}">${rate}</span>`;
+      document.getElementById('stat-detect').innerHTML =
+        isDetected ? '<span class="red">Detected</span>'
+        : isUpdating ? '<span class="yellow">Updating</span>'
+        : '100%';
+      document.getElementById('stat-live').innerHTML =
+        `<span class="${colorClass}">${isDetected ? 'Alert' : isUpdating ? 'Updating' : 'Live'}</span>`;
+
+      // ── Status card metrics ──
+      flashMetric('metric-rate');
+      flashMetric('metric-detect');
+      flashMetric('metric-updated');
+
+      const rateVal = document.getElementById('metric-rate-val');
+      rateVal.textContent = rate;
+      rateVal.className = 'metric-value ' + colorClass;
+
+      const bar = document.getElementById('rate-bar');
+      bar.style.width = isDetected ? '10%' : isUpdating ? '60%' : '100%';
+      bar.style.background = isDetected
+        ? 'linear-gradient(90deg, #ef4444, #fca5a5)'
+        : isUpdating
+          ? 'linear-gradient(90deg, #f59e0b, #fde68a)'
+          : 'linear-gradient(90deg, #22c55e, #86efac)';
+
+      const detectVal = document.getElementById('metric-detect-val');
+      detectVal.textContent = isDetected ? 'Detected ✗' : isUpdating ? 'Updating ⏳' : 'Undetected ✓';
+      detectVal.className = 'metric-value ' + colorClass;
+
+      document.getElementById('metric-updated-val').textContent = updated;
+    }
+
+    function flashMetric(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('flash');
+      void el.offsetWidth; // reflow to restart animation
+      el.classList.add('flash');
+    }
+
+    /* ─────────────────────────────────────────────
+       INIT
+    ───────────────────────────────────────────── */
+    fetchStatus();
+    setInterval(fetchStatus, POLL_INTERVAL);
+
+    /* ─────────────────────────────────────────────
+       FAQ TOGGLE
+    ───────────────────────────────────────────── */
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    /* ─────────────────────────────────────────────
+       SCROLL REVEAL
+    ───────────────────────────────────────────── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ─────────────────────────────────────────────
+       NAV SHADOW ON SCROLL
+    ───────────────────────────────────────────── */
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.boxShadow =
+        window.scrollY > 20 ? '0 4px 30px rgba(0,0,0,0.06)' : 'none';
+    });
+  </script>
+</body>
+</html>
