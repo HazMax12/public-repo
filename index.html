@@ -3,142 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="mtPpY2N-r-323cfFSOlNwDkk7OAfLg8_GrfoZRZULb8" />
-  <title>Lube Bypass</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <title>Lube Bypass — Premium Doomsday Client Bypass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --white: #ffffff;
-      --off: #f5f5f3;
-      --light: #ebebeb;
-      --mid: #c8c8c8;
-      --dark: #1a1a1a;
-      --ink: #111111;
-      --accent: #0a0a0a;
-      --green: #22c55e;
-      --green-soft: #dcfce7;
-      --red: #ef4444;
-      --yellow: #f59e0b;
+      --bg:        #080808;
+      --bg2:       #0f0f0f;
+      --bg3:       #141414;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.12);
+      --text:      #f0f0f0;
+      --muted:     #888;
+      --faint:     #3a3a3a;
+      --green:     #00ff88;
+      --green-dim: rgba(0,255,136,0.12);
+      --green-glow:rgba(0,255,136,0.25);
+      --red:       #ff4d4d;
+      --yellow:    #ffbe00;
+      --white:     #ffffff;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--white);
-      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
+    /* ── GRAIN OVERLAY ── */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 9999;
-      opacity: 0.4;
     }
 
-    /* ── NAV ── */
+    /* ────────────────────────────────────
+       NAV
+    ──────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 60px;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--light);
-      animation: slideDown 0.6s ease both;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8,8,8,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      animation: navIn 0.5s ease both;
     }
 
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to   { transform: translateY(0);     opacity: 1; }
+    @keyframes navIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: -0.03em;
-      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
     }
-    .nav-logo span { color: var(--green); }
 
-    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-logo-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+    }
 
-    .nav-links a {
-      font-size: 0.875rem;
+    .nav-logo-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo-text span { color: var(--green); }
+
+    .nav-center {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 5px;
+    }
+
+    .nav-center a {
+      display: block;
+      padding: 6px 16px;
+      font-size: 0.82rem;
       font-weight: 500;
-      color: #555;
+      color: var(--muted);
       text-decoration: none;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
       letter-spacing: 0.02em;
-      transition: color 0.2s;
-      position: relative;
     }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: var(--ink);
-      transition: width 0.3s ease;
+    .nav-center a:hover {
+      color: var(--text);
+      background: var(--border);
     }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-links a:hover::after { width: 100%; }
 
-    .nav-cta {
-      background: var(--ink);
-      color: var(--white) !important;
-      padding: 9px 22px;
-      border-radius: 100px;
-      font-size: 0.85rem !important;
-      font-weight: 500 !important;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s !important;
-      cursor: pointer;
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .nav-cta:hover { background: #333 !important; transform: translateY(-1px); }
-    .nav-cta::after { display: none !important; }
 
-    .nav-live-badge {
+    .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      gap: 7px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
       padding: 5px 12px;
       border-radius: 100px;
-      border: 1px solid #86efac;
-      background: var(--green-soft);
-      color: #16a34a;
-      transition: all 0.4s ease;
+      border: 1px solid rgba(0,255,136,0.3);
+      background: var(--green-dim);
+      color: var(--green);
+      transition: all 0.4s;
+      letter-spacing: 0.04em;
     }
-    .nav-live-badge.detected {
-      background: #fee2e2;
-      border-color: #fca5a5;
-      color: #dc2626;
-    }
-    .nav-live-badge.updating {
-      background: #fef9c3;
-      border-color: #fde68a;
-      color: #b45309;
-    }
-    .nav-live-dot {
+    .status-pill.detected { border-color: rgba(255,77,77,0.35); background: rgba(255,77,77,0.1); color: var(--red); }
+    .status-pill.updating { border-color: rgba(255,190,0,0.35); background: rgba(255,190,0,0.1); color: var(--yellow); }
+
+    .status-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: currentColor;
-      animation: blink 1.5s ease-in-out infinite;
+      animation: blink 1.4s ease-in-out infinite;
     }
 
-    /* ── HERO ── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .btn-nav {
+      background: var(--green);
+      color: var(--bg);
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: 'IBM Plex Sans', sans-serif;
+      letter-spacing: 0.02em;
+    }
+    .btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ────────────────────────────────────
+       HERO
+    ──────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -146,533 +177,600 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 120px 40px 80px;
+      padding: 140px 40px 80px;
       position: relative;
       overflow: hidden;
     }
 
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 30%, #e8fce8 0%, transparent 70%),
-                  radial-gradient(ellipse 60% 50% at 20% 80%, #f0f0f0 0%, transparent 60%),
-                  radial-gradient(ellipse 50% 40% at 80% 70%, #f8f8f8 0%, transparent 60%);
-      z-index: 0;
-    }
-
-    .hero-circle {
+    /* Radial glow */
+    .hero::before {
+      content: '';
       position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.06);
-      animation: pulse 6s ease-in-out infinite;
-    }
-    .hero-circle:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s; }
-    .hero-circle:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 8%; animation-delay: -2s; }
-    .hero-circle:nth-child(3) { width: 150px; height: 150px; bottom: 15%; left: 15%; animation-delay: -4s; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50%       { transform: scale(1.05); opacity: 1; }
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 65%);
+      pointer-events: none;
     }
 
-    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+    /* Grid lines */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--green-soft);
-      border: 1px solid #86efac;
+      background: var(--green-dim);
+      border: 1px solid rgba(0,255,136,0.25);
       border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 0.78rem;
+      padding: 7px 18px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
       font-weight: 500;
-      color: #16a34a;
-      margin-bottom: 28px;
-      animation: fadeUp 0.7s 0.3s ease both;
-      transition: all 0.4s ease;
+      color: var(--green);
+      margin-bottom: 36px;
+      letter-spacing: 0.06em;
+      animation: fadeUp 0.6s 0.2s ease both;
+      transition: all 0.4s;
     }
-    .hero-badge.detected {
-      background: #fee2e2;
-      border-color: #fca5a5;
-      color: #dc2626;
-    }
-    .hero-badge.updating {
-      background: #fef9c3;
-      border-color: #fde68a;
-      color: #b45309;
-    }
+    .hero-badge.detected { border-color: rgba(255,77,77,0.3); background: rgba(255,77,77,0.08); color: var(--red); }
+    .hero-badge.updating { border-color: rgba(255,190,0,0.3); background: rgba(255,190,0,0.08); color: var(--yellow); }
 
     .badge-dot {
       width: 7px; height: 7px;
       border-radius: 50%;
       background: currentColor;
-      animation: blink 1.5s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
+      animation: blink 1.4s ease-in-out infinite;
     }
 
     .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      color: var(--ink);
-      margin-bottom: 24px;
-      animation: fadeUp 0.7s 0.45s ease both;
-    }
-    .hero h1 .accent {
-      color: transparent;
-      -webkit-text-stroke: 2px var(--ink);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 13vw, 160px);
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 10px;
+      animation: fadeUp 0.6s 0.35s ease both;
     }
 
-    .hero-sub {
-      font-size: 1.1rem;
-      color: #666;
+    .hero h1 .outline {
+      -webkit-text-stroke: 2px rgba(255,255,255,0.25);
+      color: transparent;
+    }
+
+    .hero h1 .green-word { color: var(--green); }
+
+    .hero-tagline {
+      font-size: 1rem;
+      color: var(--muted);
       font-weight: 300;
-      line-height: 1.6;
-      max-width: 520px;
-      margin: 0 auto 40px;
-      animation: fadeUp 0.7s 0.6s ease both;
+      margin: 28px auto 44px;
+      max-width: 500px;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.5s ease both;
     }
 
     .hero-actions {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeUp 0.7s 0.75s ease both;
+      animation: fadeUp 0.6s 0.65s ease both;
     }
 
     @keyframes fadeUp {
-      from { transform: translateY(24px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .btn-primary {
-      background: var(--ink);
-      color: var(--white);
-      padding: 14px 32px;
-      border-radius: 100px;
-      font-size: 0.95rem;
-      font-weight: 500;
+      background: var(--green);
+      color: var(--bg);
+      padding: 14px 34px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
       text-decoration: none;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      border: 2px solid var(--ink);
+      border: none;
       cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      font-family: 'IBM Plex Sans', sans-serif;
+      display: inline-flex; align-items: center; gap: 8px;
     }
     .btn-primary:hover {
-      background: transparent;
-      color: var(--ink);
+      opacity: 0.88;
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 12px 40px var(--green-glow);
     }
 
-    .btn-secondary {
+    .btn-ghost {
       background: transparent;
-      color: var(--ink);
-      padding: 14px 32px;
-      border-radius: 100px;
-      font-size: 0.95rem;
+      color: var(--muted);
+      padding: 14px 28px;
+      border-radius: 10px;
       font-weight: 500;
+      font-size: 0.9rem;
       text-decoration: none;
-      border: 2px solid var(--light);
-      transition: border-color 0.2s, transform 0.2s;
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+      font-family: 'IBM Plex Sans', sans-serif;
     }
-    .btn-secondary:hover { border-color: var(--mid); transform: translateY(-2px); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--faint); transform: translateY(-2px); }
 
-    .stats-bar {
+    /* Stats row */
+    .stats-strip {
       display: flex;
       justify-content: center;
       gap: 0;
       margin-top: 80px;
-      border: 1px solid var(--light);
-      border-radius: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
       overflow: hidden;
-      animation: fadeUp 0.7s 0.9s ease both;
-      position: relative;
-      z-index: 1;
+      animation: fadeUp 0.6s 0.8s ease both;
+      position: relative; z-index: 1;
+      background: var(--bg2);
     }
 
-    .stat {
-      padding: 20px 48px;
-      border-right: 1px solid var(--light);
+    .stat-item {
+      padding: 22px 48px;
+      border-right: 1px solid var(--border);
       text-align: center;
     }
-    .stat:last-child { border-right: none; }
+    .stat-item:last-child { border-right: none; }
 
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.8rem;
-      color: var(--ink);
-      letter-spacing: -0.03em;
-      transition: color 0.4s;
+    .stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
     }
-    .stat-num .green  { color: var(--green); }
-    .stat-num .red    { color: var(--red); }
-    .stat-num .yellow { color: var(--yellow); }
+    .stat-val.g { color: var(--green); }
+    .stat-val.r { color: var(--red); }
+    .stat-val.y { color: var(--yellow); }
 
-    .stat-label {
-      font-size: 0.75rem;
-      color: #999;
-      font-weight: 400;
-      margin-top: 2px;
+    .stat-lbl {
+      font-size: 0.68rem;
+      color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
+      margin-top: 5px;
     }
 
-    /* ── SECTION BASE ── */
-    section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+    /* ────────────────────────────────────
+       SECTION COMMONS
+    ──────────────────────────────────── */
+    .section-wrap { max-width: 1180px; margin: 0 auto; padding: 100px 48px; }
 
-    .section-label {
-      font-size: 0.72rem;
-      font-weight: 600;
+    .sec-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #aaa;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .sec-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--green);
+    }
+
+    .sec-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 5vw, 64px);
+      letter-spacing: 0.03em;
+      color: var(--white);
+      line-height: 0.95;
       margin-bottom: 16px;
     }
 
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-
-    .section-desc {
-      font-size: 1rem;
-      color: #777;
+    .sec-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
       font-weight: 300;
-      max-width: 480px;
+      max-width: 460px;
       line-height: 1.7;
     }
 
-    /* ── PRODUCTS ── */
-    .products { background: var(--off); }
-    .products-inner { max-width: 1200px; margin: 0 auto; padding: 100px 60px; }
+    /* ────────────────────────────────────
+       PRODUCTS
+    ──────────────────────────────────── */
+    .products-bg { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
     .products-header {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 60px;
+      margin-bottom: 56px;
     }
 
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-    }
-
-    .product-card {
-      background: var(--white);
-      border: 1px solid var(--light);
-      border-radius: 20px;
-      padding: 36px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
-      cursor: pointer;
-    }
-    .product-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--green), #86efac);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .product-card:hover::before { transform: scaleX(1); }
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-      border-color: transparent;
-    }
-
-    .product-card.featured {
-      background: var(--ink);
-      border-color: var(--ink);
-      color: var(--white);
-    }
-    .product-card.featured::before {
-      background: linear-gradient(90deg, var(--green), #86efac);
-      transform: scaleX(1);
-    }
-
-    .product-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
-
-    .product-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: var(--off);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-    .product-card.featured .product-icon { background: rgba(255,255,255,0.1); }
-
-    .product-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 100px;
-    }
-    .badge-popular { background: var(--green-soft); color: #16a34a; }
-    .badge-new     { background: #fef9c3; color: #854d0e; }
-    .product-card.featured .badge-popular { background: rgba(34,197,94,0.2); color: var(--green); }
-
-    .product-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .product-desc {
-      font-size: 0.9rem;
-      color: #888;
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-    .product-card.featured .product-desc { color: rgba(255,255,255,0.55); }
-
-    .features-list {
-      list-style: none;
-      margin-bottom: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .features-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.875rem;
-      color: #555;
-    }
-    .product-card.featured .features-list li { color: rgba(255,255,255,0.7); }
-
-    .feat-check {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--green-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .feat-check svg { width: 10px; height: 10px; stroke: #16a34a; }
-    .product-card.featured .feat-check { background: rgba(34,197,94,0.2); }
-    .product-card.featured .feat-check svg { stroke: var(--green); }
-
-    .product-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 24px;
-      border-top: 1px solid var(--light);
-    }
-    .product-card.featured .product-footer { border-top-color: rgba(255,255,255,0.1); }
-
-    .product-price {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.8rem;
-      letter-spacing: -0.03em;
-    }
-    .product-price sup { font-size: 0.9rem; font-weight: 600; vertical-align: super; font-family: 'DM Sans', sans-serif; }
-    .product-price sub { font-size: 0.75rem; font-weight: 400; vertical-align: baseline; color: #aaa; font-family: 'DM Sans', sans-serif; }
-    .product-card.featured .product-price sub { color: rgba(255,255,255,0.4); }
-
-    .buy-btn {
-      background: var(--ink);
-      color: var(--white);
-      padding: 10px 22px;
-      border-radius: 100px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-    .buy-btn:hover { background: #333; transform: translateY(-1px); }
-    .product-card.featured .buy-btn { background: var(--green); color: var(--white); }
-    .product-card.featured .buy-btn:hover { background: #16a34a; }
-
-    /* ── STATUS SECTION ── */
-    .status-section { padding: 80px 60px; }
-
-    .status-card {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: var(--ink);
-      border-radius: 24px;
-      padding: 60px;
-      display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .status-card::after {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
-      width: 350px; height: 350px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%);
-    }
-
-    .status-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 2.2rem;
-      color: var(--white);
-      letter-spacing: -0.03em;
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-
-    .status-desc {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.7;
-    }
-
-    .status-metrics {
-      display: flex;
-      flex-direction: column;
       gap: 20px;
     }
 
-    .metric {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 20px 24px;
+    .product-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-4px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+
+    /* Featured card */
+    .product-card.featured {
+      background: linear-gradient(135deg, #0a1a0a 0%, #050d05 100%);
+      border-color: rgba(0,255,136,0.2);
+    }
+    .product-card.featured:hover {
+      border-color: rgba(0,255,136,0.4);
+      box-shadow: 0 24px 60px rgba(0,255,136,0.08);
+    }
+
+    /* Glow top bar */
+    .card-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .product-card.featured .card-glow { opacity: 1; }
+    .product-card:hover .card-glow { opacity: 0.6; }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .card-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .product-card.featured .card-icon { background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.2); }
+
+    .card-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .badge-starter { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+    .badge-pro { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,255,136,0.25); }
+
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .card-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 36px;
+    }
+    .card-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .feat-tick {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.6rem;
+      color: var(--muted);
+    }
+    .product-card.featured .feat-tick {
+      background: var(--green-dim);
+      border-color: rgba(0,255,136,0.3);
+      color: var(--green);
+    }
+
+    .feat-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-left: auto;
+    }
+
+    .card-divider { height: 1px; background: var(--border); margin: 0 0 28px; }
+
+    .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .metric-label {
+    .card-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      line-height: 1;
+    }
+    .card-price-detail {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .buy-btn {
+      background: var(--bg3);
+      color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 11px 26px;
+      border-radius: 9px;
       font-size: 0.85rem;
-      color: rgba(255,255,255,0.5);
-      font-weight: 400;
+      font-weight: 600;
+      font-family: 'IBM Plex Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buy-btn:hover { background: var(--faint); transform: translateY(-1px); }
+
+    .product-card.featured .buy-btn {
+      background: var(--green);
+      color: var(--bg);
+      border-color: transparent;
+    }
+    .product-card.featured .buy-btn:hover {
+      opacity: 0.85;
+      box-shadow: 0 8px 24px var(--green-glow);
     }
 
-    .metric-value {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--green);
-      transition: color 0.4s ease;
+    /* ────────────────────────────────────
+       STATUS
+    ──────────────────────────────────── */
+    .status-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 100px 48px;
     }
-    .metric-value.white  { color: var(--white); }
-    .metric-value.red    { color: var(--red); }
-    .metric-value.yellow { color: var(--yellow); }
 
-    .progress-bar-wrap {
-      height: 6px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 100px;
+    .status-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       overflow: hidden;
+    }
+
+    .status-left {
+      padding: 56px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .status-left::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .status-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 6vw, 80px);
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 0.9;
+      margin: 20px 0 20px;
+    }
+    .status-big span { color: var(--green); }
+
+    .status-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 380px;
+    }
+
+    .status-right {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .metric-row {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s;
+    }
+    .metric-row.flash { animation: flashRow 0.8s ease; }
+
+    @keyframes flashRow {
+      0%   { background: rgba(0,255,136,0.08); }
+      100% { background: var(--bg); }
+    }
+
+    .metric-lbl {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .metric-sub {
       margin-top: 8px;
     }
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--green), #86efac);
+    .meter {
+      height: 4px;
+      width: 160px;
+      background: rgba(255,255,255,0.06);
       border-radius: 100px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--green), #80ffba);
       transition: width 0.8s ease, background 0.4s ease;
     }
 
-    .last-fetched {
+    .metric-val {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      transition: color 0.4s;
+    }
+    .metric-val.white { color: var(--white); }
+    .metric-val.red   { color: var(--red); }
+    .metric-val.yel   { color: var(--yellow); }
+
+    .status-timestamp {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.2);
       text-align: right;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.25);
-      margin-top: 12px;
-      font-style: italic;
-      transition: opacity 0.3s;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
     }
 
-    @keyframes flashMetric {
-      0%   { background: rgba(34,197,94,0.12); }
-      100% { background: rgba(255,255,255,0.04); }
-    }
-    .metric.flash { animation: flashMetric 0.8s ease; }
-
-    /* ── FEATURES ── */
-    .features-section { padding: 100px 60px; }
-    .features-inner { max-width: 1200px; margin: 0 auto; }
+    /* ────────────────────────────────────
+       FEATURES
+    ──────────────────────────────────── */
+    .features-bg { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 60px;
+      gap: 16px;
+      margin-top: 56px;
     }
 
-    .feature-item {
-      padding: 32px;
-      border: 1px solid var(--light);
-      border-radius: 16px;
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
       transition: border-color 0.3s, transform 0.3s;
     }
-    .feature-item:hover { border-color: var(--mid); transform: translateY(-2px); }
+    .feature-card:hover { border-color: var(--border2); transform: translateY(-2px); }
 
-    .feature-icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
-    .feature-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 8px; color: var(--ink); }
-    .feature-desc { font-size: 0.85rem; color: #999; line-height: 1.6; }
-
-    .na-pill {
-      display: inline-block;
-      background: var(--light);
-      color: #aaa;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      padding: 3px 10px;
-      border-radius: 100px;
-      margin-top: 10px;
-      font-style: italic;
+    .feature-icon-box {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 18px;
     }
 
-    /* ── FAQ ── */
-    .faq-section { padding: 100px 60px; background: var(--off); }
-    .faq-inner { max-width: 720px; margin: 0 auto; }
-    .faq-list { margin-top: 50px; }
-    .faq-item { border-bottom: 1px solid var(--light); }
+    .feature-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .feature-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .feature-pill {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(0,255,136,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    /* ────────────────────────────────────
+       FAQ
+    ──────────────────────────────────── */
+    .faq-shell { max-width: 680px; margin: 0 auto; padding: 100px 48px; }
+
+    .faq-item { border-bottom: 1px solid var(--border); }
 
     .faq-q {
-      width: 100%;
-      background: none;
-      border: none;
+      width: 100%; background: none; border: none;
       text-align: left;
-      padding: 24px 0;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
+      padding: 22px 0;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.9rem;
       font-weight: 500;
-      color: var(--ink);
+      color: var(--text);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -680,75 +778,114 @@
       gap: 20px;
     }
 
-    .faq-icon {
+    .faq-toggle {
       width: 24px; height: 24px;
-      border-radius: 50%;
-      background: var(--light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 6px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      font-size: 0.75rem;
       flex-shrink: 0;
-      font-size: 0.8rem;
-      color: var(--ink);
-      transition: background 0.2s, transform 0.3s;
+      transition: all 0.25s;
+      font-family: monospace;
     }
-    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--ink); color: var(--white); }
+    .faq-item.open .faq-toggle { background: var(--green); border-color: var(--green); color: var(--bg); transform: rotate(45deg); }
 
     .faq-a {
-      font-size: 0.875rem;
-      color: #777;
-      line-height: 1.7;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease, padding 0.4s;
     }
-    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 22px; }
 
-    /* ── CTA ── */
-    .cta-section { padding: 100px 60px; text-align: center; }
-    .cta-inner { max-width: 600px; margin: 0 auto; }
-
-    .cta-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      letter-spacing: -0.04em;
-      margin-bottom: 20px;
+    /* ────────────────────────────────────
+       CTA
+    ──────────────────────────────────── */
+    .cta-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 48px 100px;
     }
-    .cta-sub { color: #777; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; }
 
-    /* ── FOOTER ── */
+    .cta-block {
+      background: linear-gradient(135deg, #0a1a0a 0%, #050d05 100%);
+      border: 1px solid rgba(0,255,136,0.18);
+      border-radius: 20px;
+      padding: 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 300px;
+      background: radial-gradient(ellipse, rgba(0,255,136,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 6vw, 80px);
+      letter-spacing: 0.03em;
+      color: var(--white);
+      line-height: 0.92;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .cta-heading span { color: var(--green); }
+
+    .cta-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 440px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* ────────────────────────────────────
+       FOOTER
+    ──────────────────────────────────── */
     footer {
-      border-top: 1px solid var(--light);
-      padding: 40px 60px;
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--ink); text-decoration: none; }
-    .footer-logo span { color: var(--green); }
-    .footer-links { display: flex; gap: 32px; list-style: none; }
-    .footer-links a { font-size: 0.8rem; color: #aaa; text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--ink); }
-    .footer-copy { font-size: 0.75rem; color: #bbb; }
 
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    .footer-logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+      text-decoration: none;
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .footer-logo span { color: var(--green); }
 
-    /* ══════════════════════════════════════
-       DISCORD MODAL
-    ══════════════════════════════════════ */
+    .footer-links { display: flex; gap: 28px; list-style: none; }
+    .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy { font-size: 0.72rem; color: #3a3a3a; font-family: 'IBM Plex Mono', monospace; }
+
+    /* ────────────────────────────────────
+       MODAL
+    ──────────────────────────────────── */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 500;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -757,156 +894,130 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
 
     .modal {
-      background: var(--white);
-      border-radius: 24px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       position: relative;
       overflow: hidden;
-      transform: translateY(30px) scale(0.97);
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.25);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
     }
-    .modal-overlay.open .modal {
-      transform: translateY(0) scale(1);
-    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
 
-    /* Top accent bar */
-    .modal-accent {
-      height: 4px;
-      background: linear-gradient(90deg, #5865f2, #7289da, #5865f2);
-      background-size: 200%;
-      animation: shimmer 2s linear infinite;
+    .modal-top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #5865f2, #7289da, #00ff88, #5865f2);
+      background-size: 300%;
+      animation: shimmer 3s linear infinite;
     }
     @keyframes shimmer {
-      0%   { background-position: 0% 0; }
-      100% { background-position: 200% 0; }
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
     }
 
-    .modal-body { padding: 36px; text-align: center; }
+    .modal-body { padding: 40px; text-align: center; }
 
     .modal-close {
-      position: absolute;
-      top: 20px; right: 20px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--off);
-      border: none;
+      position: absolute; top: 18px; right: 18px;
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #888;
-      font-size: 1rem;
-      transition: background 0.2s, color 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: all 0.2s;
       z-index: 2;
     }
-    .modal-close:hover { background: var(--light); color: var(--ink); }
+    .modal-close:hover { background: var(--faint); color: var(--text); }
 
-    /* Discord icon */
-    .discord-icon-wrap {
-      width: 68px; height: 68px;
-      border-radius: 20px;
+    .discord-wrap {
+      width: 60px; height: 60px;
+      border-radius: 16px;
       background: #5865f2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 22px;
-      color: white;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
     }
-    .discord-icon-wrap svg { width: 36px; height: 36px; }
+    .discord-wrap svg { width: 32px; height: 32px; }
 
     .modal-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      margin-bottom: 6px;
     }
 
-    .modal-subtitle {
-      font-size: 0.875rem;
-      color: #888;
+    .modal-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
       margin-bottom: 24px;
+      font-weight: 300;
       line-height: 1.5;
     }
 
-    /* Product pill */
-    .discord-product-pill {
+    .modal-pill {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--off);
-      border: 1px solid var(--light);
+      background: var(--bg3);
+      border: 1px solid var(--border);
       border-radius: 100px;
       padding: 8px 18px;
-      margin-bottom: 28px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--ink);
+      margin-bottom: 26px;
+      font-size: 0.82rem;
     }
-    .pill-price {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      color: var(--ink);
-    }
-    .pill-tag {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #16a34a;
-      background: var(--green-soft);
-      padding: 2px 8px;
-      border-radius: 100px;
+    .pill-name { color: var(--text); font-weight: 500; }
+    .pill-amount { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--green); }
+    .pill-lifetime {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 4px;
+      background: var(--green-dim); color: var(--green);
+      border: 1px solid rgba(0,255,136,0.2);
     }
 
-    /* Steps */
-    .discord-steps {
+    .modal-steps {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 28px;
+      gap: 10px;
+      margin-bottom: 24px;
       text-align: left;
     }
-    .step {
+    .step-row {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 14px 16px;
-      background: var(--off);
-      border-radius: 12px;
-      border: 1px solid var(--light);
+      padding: 13px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
     }
     .step-num {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      background: var(--ink);
-      color: var(--white);
-      font-family: 'Syne', sans-serif;
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      background: var(--green);
+      color: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
       font-weight: 700;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
     .step-text {
-      font-size: 0.875rem;
-      color: #555;
-      line-height: 1.4;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
     }
-    .step-text strong { color: var(--ink); font-weight: 600; }
+    .step-text strong { color: var(--text); font-weight: 600; }
 
-    /* Join button */
-    .discord-join-btn {
+    .discord-btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -914,505 +1025,531 @@
       width: 100%;
       background: #5865f2;
       color: white;
-      padding: 15px 24px;
-      border-radius: 12px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
+      padding: 14px;
+      border-radius: 11px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
       text-decoration: none;
-      letter-spacing: -0.01em;
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
       margin-bottom: 14px;
     }
-    .discord-join-btn:hover {
+    .discord-btn:hover {
       background: #4752c4;
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(88,101,242,0.35);
+      box-shadow: 0 8px 24px rgba(88,101,242,0.3);
     }
 
     .modal-trust {
+      font-size: 0.72rem;
+      color: #3a3a3a;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 0.75rem;
-      color: #bbb;
+      font-family: 'IBM Plex Mono', monospace;
     }
-    .modal-trust svg { width: 13px; height: 13px; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
-      .nav-links { display: none; }
-      section { padding: 60px 24px; }
-      .products-inner { padding: 60px 24px; }
-      .products-header { flex-direction: column; gap: 20px; align-items: flex-start; }
+    /* ────────────────────────────────────
+       SCROLL REVEAL
+    ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────── */
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-center { display: none; }
+      .section-wrap, .status-shell, .cta-shell, .faq-shell { padding-left: 24px; padding-right: 24px; }
       .products-grid { grid-template-columns: 1fr; }
-      .status-card { grid-template-columns: 1fr; padding: 36px 24px; }
+      .status-card { grid-template-columns: 1fr; }
+      .status-right { padding: 24px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .stats-strip { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
+      .cta-block { padding: 48px 32px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .products-header { flex-direction: column; gap: 20px; }
+    }
+    @media (max-width: 600px) {
       .features-grid { grid-template-columns: 1fr; }
-      .faq-section { padding: 60px 24px; }
-      .cta-section { padding: 60px 24px; }
-      footer { flex-direction: column; gap: 24px; text-align: center; }
-      .stats-bar { flex-direction: column; }
-      .stat { border-right: none; border-bottom: 1px solid var(--light); }
-      .stat:last-child { border-bottom: none; }
-      .modal-body { padding: 24px; }
-      .form-row { grid-template-columns: 1fr; }
+      .modal-body { padding: 28px 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════════════ DISCORD MODAL ══════════════════════ -->
-  <div class="modal-overlay" id="checkout-modal" onclick="closeCheckoutOnBg(event)">
-    <div class="modal">
-      <div class="modal-accent"></div>
-      <button class="modal-close" onclick="closeCheckout()">✕</button>
-      <div class="modal-body">
+<!-- MODAL -->
+<div class="modal-overlay" id="checkout-modal" onclick="closeBg(event)">
+  <div class="modal">
+    <div class="modal-top-bar"></div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-body">
+      <div class="discord-wrap">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </div>
+      <div class="modal-title">Purchase via Discord</div>
+      <div class="modal-sub">Join our server, open a ticket, and get access instantly.</div>
 
-        <!-- Discord icon -->
-        <div class="discord-icon-wrap">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-          </svg>
+      <div class="modal-pill">
+        <span class="pill-name" id="modal-name">Lube Bypass Pro</span>
+        <span class="pill-amount" id="modal-price">$5.99</span>
+        <span class="pill-lifetime">LIFETIME</span>
+      </div>
+
+      <div class="modal-steps">
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div class="step-text">Join the Discord server using the button below</div>
         </div>
-
-        <div class="modal-title">Purchase via Discord</div>
-        <div class="modal-subtitle">Join our Discord server to complete your purchase and receive instant access.</div>
-
-        <!-- Product pill -->
-        <div class="discord-product-pill">
-          <span id="modal-product-name">Lube Bypass Pro</span>
-          <span class="pill-price" id="modal-product-price">$5.99</span>
-          <span class="pill-tag">Lifetime</span>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div class="step-text">Open a ticket in <strong>#purchase</strong></div>
         </div>
-
-        <!-- Steps -->
-        <div class="discord-steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-text">Join the Discord server using the button below</div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-text">Open a ticket in the <strong>#purchase</strong> channel</div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-text">A staff member will assist you and deliver access instantly</div>
-          </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div class="step-text">Staff will assist and deliver access <strong>instantly</strong></div>
         </div>
+      </div>
 
-        <!-- CTA -->
-        <a href="https://discord.gg/ZxyRHJJK6W" target="_blank" class="discord-join-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-          </svg>
-          Join Discord Server
-        </a>
+      <a href="https://discord.gg/ZxyRHJJK6W" target="_blank" class="discord-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Join Discord Server
+      </a>
+      <div class="modal-trust">⚡ Fast delivery &nbsp;·&nbsp; 🛡 Friendly support &nbsp;·&nbsp; 🟢 Always online</div>
+    </div>
+  </div>
+</div>
 
-        <div class="modal-trust">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Fast delivery · Friendly support · Always online
-        </div>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-text">Lube<span>.</span>Bypass</span>
+  </a>
+  <ul class="nav-center">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="status-pill" id="nav-pill">
+      <span class="status-dot"></span>
+      <span id="nav-pill-text">Undetected</span>
+    </span>
+    <button class="btn-nav" onclick="openModal('Lube Bypass Pro','5.99')">Buy Now</button>
+  </div>
+</nav>
 
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">
+      <span class="badge-dot"></span>
+      <span id="hero-badge-text">Undetected · 1/1 Bypass Rate · Always Online</span>
+    </div>
+    <h1>The<br/><span class="green-word">Cleanest</span><br/><span class="outline">Bypass</span></h1>
+    <p class="hero-tagline">Premium bypass solutions for Doomsday Client. Engineered to keep you undetected — every session, every time.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shop Products
+      </a>
+      <a href="#status" class="btn-ghost">View Status →</a>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-val g" id="stat-rate">1/1</div>
+        <div class="stat-lbl">Bypass Success Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-detect">100%</div>
+        <div class="stat-lbl">Undetected</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">24/7</div>
+        <div class="stat-lbl">Status Updates</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val g" id="stat-live">Live</div>
+        <div class="stat-lbl">System Status</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Lube<span>.</span>Bypass</a>
-    <ul class="nav-links">
-      <li><a href="#products">Products</a></li>
-      <li><a href="#status">Status</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li>
-        <span class="nav-live-badge" id="nav-live-badge">
-          <span class="nav-live-dot"></span>
-          <span id="nav-live-text">Undetected</span>
-        </span>
-      </li>
-      <li><a href="#" class="nav-cta" onclick="openCheckout('Lube Bypass Pro','5.99'); return false;">Buy Now</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-bg">
-      <div class="hero-circle"></div>
-      <div class="hero-circle"></div>
-      <div class="hero-circle"></div>
-    </div>
-    <div class="hero-content">
-      <div class="hero-badge" id="hero-badge">
-        <div class="badge-dot"></div>
-        <span id="hero-badge-text">Undetected · 1/1 Bypass Rate · Always Online</span>
-      </div>
-      <h1>The Cleanest<br /><span class="accent">Bypass</span><br />On The Market</h1>
-      <p class="hero-sub">Premium bypass solutions for Doomsday Client. Designed to keep you undetected — every single session, every single time.</p>
-      <div class="hero-actions">
-        <a href="#products" class="btn-primary">Shop Products</a>
-        <a href="#status" class="btn-secondary">View Status</a>
-      </div>
-
-      <div class="stats-bar">
-        <div class="stat">
-          <div class="stat-num" id="stat-rate"><span class="green">1/1</span></div>
-          <div class="stat-label">Bypass Success Rate</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num" id="stat-detect">100%</div>
-          <div class="stat-label">Undetected</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">24/7</div>
-          <div class="stat-label">Status Updates</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num" id="stat-live"><span class="green">Live</span></div>
-          <div class="stat-label">System Status</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRODUCTS -->
-  <div class="products" id="products">
-    <div class="products-inner">
-      <div class="products-header reveal">
-        <div>
-          <div class="section-label">Our Products</div>
-          <h2 class="section-title">Choose Your Plan</h2>
-          <p class="section-desc">Two powerful bypass options to fit your needs.</p>
-        </div>
-      </div>
-
-      <div class="products-grid">
-        <div class="product-card reveal">
-          <div class="product-top">
-            <div class="product-icon">🧼</div>
-            <span class="product-badge badge-new">Starter</span>
-          </div>
-          <div class="product-name">Lube Cleaner</div>
-          <p class="product-desc">The essential bypass solution. Clean, lightweight, and reliable for everyday sessions with Doomsday Client.</p>
-          <ul class="features-list">
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Doomsday Bypass Support</li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Undetected Status</li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Feature: <span class="na-pill">String Cleaner</span></li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Feature: <span class="na-pill">DCOM Cleaner</span></li>
-          </ul>
-          <div class="product-footer">
-            <div class="product-price"><sup>$</sup>2.99<sub> lifetime</sub></div>
-            <button class="buy-btn" onclick="openCheckout('Lube Cleaner','2.99')">Buy Now</button>
-          </div>
-        </div>
-
-        <div class="product-card featured reveal">
-          <div class="product-top">
-            <div class="product-icon">🚀</div>
-            <span class="product-badge badge-popular">Most Popular</span>
-          </div>
-          <div class="product-name">Lube Bypass Pro</div>
-          <p class="product-desc">The ultimate bypass experience. Every feature unlocked, priority updates, and maximum performance for serious users.</p>
-          <ul class="features-list">
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Lube Cleaner</li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority Status Alerts</li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">Ocean Blocker</span></li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">Journal Spoofing and deleting</span></li>
-            <li><span class="feat-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pro Feature: <span class="na-pill">Fileless Injection</span></li>
-          </ul>
-          <div class="product-footer">
-            <div class="product-price"><sup>$</sup>5.99<sub> lifetime</sub></div>
-            <button class="buy-btn" onclick="openCheckout('Lube Bypass Pro','5.99')">Buy Pro</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STATUS -->
-  <div class="status-section" id="status">
-    <div class="status-card reveal">
+<!-- PRODUCTS -->
+<div class="products-bg" id="products">
+  <div class="section-wrap">
+    <div class="products-header reveal">
       <div>
-        <div class="section-label" style="color:rgba(255,255,255,0.3)">Bypass Status</div>
-        <div class="status-title">Always<br />Undetected.</div>
-        <p class="status-desc">Our bypass maintains a perfect 1/1 success record. We monitor status continuously and push updates the moment anything changes — so you're always safe.</p>
+        <div class="sec-eyebrow">Products</div>
+        <h2 class="sec-title">Choose Your Plan</h2>
+        <p class="sec-desc">Two powerful bypass options built for serious users.</p>
       </div>
-      <div class="status-metrics">
+      <div class="status-pill" id="products-pill" style="align-self:flex-end">
+        <span class="status-dot"></span>
+        <span>All plans undetected</span>
+      </div>
+    </div>
 
-        <div class="metric" id="metric-rate">
+    <div class="products-grid">
+      <!-- Starter -->
+      <div class="product-card reveal">
+        <div class="card-glow"></div>
+        <div class="card-top">
+          <div class="card-icon">🧼</div>
+          <span class="card-badge badge-starter">Starter</span>
+        </div>
+        <div class="card-name">Lube Cleaner</div>
+        <p class="card-desc">The essential bypass solution. Clean, lightweight, and reliable for everyday sessions with Doomsday Client.</p>
+        <ul class="card-features">
+          <li>
+            <span class="feat-tick">✓</span>
+            Doomsday Bypass Support
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            Undetected Status
+            <span class="feat-tag">Always</span>
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            String Cleaner
+            <span class="feat-tag">Included</span>
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            DCOM Cleaner
+            <span class="feat-tag">Included</span>
+          </li>
+        </ul>
+        <div class="card-divider"></div>
+        <div class="card-footer">
           <div>
-            <div class="metric-label">Bypass Success Rate</div>
-            <div class="progress-bar-wrap" style="width:200px; margin-top:10px;">
-              <div class="progress-bar" id="rate-bar" style="width:100%"></div>
+            <div class="card-price">$2.99</div>
+            <div class="card-price-detail">ONE-TIME · LIFETIME ACCESS</div>
+          </div>
+          <button class="buy-btn" onclick="openModal('Lube Cleaner','2.99')">Buy Now →</button>
+        </div>
+      </div>
+
+      <!-- Pro -->
+      <div class="product-card featured reveal">
+        <div class="card-glow"></div>
+        <div class="card-top">
+          <div class="card-icon">🚀</div>
+          <span class="card-badge badge-pro">Most Popular</span>
+        </div>
+        <div class="card-name">Lube Bypass Pro</div>
+        <p class="card-desc">The ultimate bypass experience. Every feature unlocked, priority updates, and maximum stealth for serious users.</p>
+        <ul class="card-features">
+          <li>
+            <span class="feat-tick">✓</span>
+            Everything in Lube Cleaner
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            Priority Status Alerts
+            <span class="feat-tag">Pro</span>
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            Ocean & Echo Blocker
+            <span class="feat-tag">Pro</span>
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            Journal Spoofing & Deletion
+            <span class="feat-tag">Pro</span>
+          </li>
+          <li>
+            <span class="feat-tick">✓</span>
+            Fileless Injection
+            <span class="feat-tag">Pro</span>
+          </li>
+        </ul>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div>
+            <div class="card-price">$5.99</div>
+            <div class="card-price-detail">ONE-TIME · LIFETIME ACCESS</div>
+          </div>
+          <button class="buy-btn" onclick="openModal('Lube Bypass Pro','5.99')">Buy Pro →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div id="status">
+  <div class="status-shell">
+    <div class="status-card reveal">
+      <div class="status-left">
+        <div class="sec-eyebrow">Live Status</div>
+        <div class="status-big">Always<br/><span>Undetected</span><span style="color:var(--white)">.</span></div>
+        <p class="status-body">Our bypass maintains a perfect 1/1 success record. We monitor continuously and push updates the moment anything changes — so you're always safe.</p>
+      </div>
+      <div class="status-right">
+        <div class="metric-row" id="metric-rate">
+          <div>
+            <div class="metric-lbl">Bypass Success Rate</div>
+            <div class="metric-sub">
+              <div class="meter"><div class="meter-fill" id="meter-fill" style="width:100%"></div></div>
             </div>
           </div>
-          <div class="metric-value" id="metric-rate-val">1 / 1</div>
+          <div class="metric-val" id="metric-rate-val">1 / 1</div>
         </div>
 
-        <div class="metric" id="metric-detect">
-          <div class="metric-label">Detection Status</div>
-          <div class="metric-value" id="metric-detect-val">Undetected ✓</div>
+        <div class="metric-row" id="metric-detect">
+          <div class="metric-lbl">Detection Status</div>
+          <div class="metric-val" id="metric-detect-val">Undetected ✓</div>
         </div>
 
-        <div class="metric" id="metric-updated">
-          <div class="metric-label">Last Updated</div>
-          <div class="metric-value white" id="metric-updated-val">Fetching…</div>
+        <div class="metric-row" id="metric-updated">
+          <div class="metric-lbl">Last Updated</div>
+          <div class="metric-val white" id="metric-updated-val">Fetching…</div>
         </div>
 
-        <div class="metric">
-          <div class="metric-label">Supported Client</div>
-          <div class="metric-value white">Doomsday Client</div>
+        <div class="metric-row">
+          <div class="metric-lbl">Supported Client</div>
+          <div class="metric-val white">Doomsday Client</div>
         </div>
 
-        <div class="last-fetched" id="last-fetched">Connecting to live status…</div>
+        <div class="status-timestamp" id="ts">Connecting to live status…</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- FEATURES -->
-  <div class="features-section" id="features">
-    <div class="features-inner">
-      <div class="reveal">
-        <div class="section-label">Features</div>
-        <h2 class="section-title">Built for Performance</h2>
-        <p class="section-desc">Placeholder features — fill these in with your actual product capabilities.</p>
+<!-- FEATURES -->
+<div class="features-bg" id="features">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="sec-eyebrow">Features</div>
+      <h2 class="sec-title">Built for Performance</h2>
+      <p class="sec-desc">Every module designed to keep you a step ahead, every time.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">🔒</div>
+        <div class="feature-name">String Cleaner</div>
+        <div class="feature-desc">Cleans Doomsday strings visible in Process Hacker, leaving no trace behind during a screenshare.</div>
+        <span class="feature-pill">Starter + Pro</span>
       </div>
-      <div class="features-grid">
-        <div class="feature-item reveal">
-          <span class="feature-icon">🔒</span>
-          <div class="feature-name">String Cleaner</div>
-          <div class="feature-desc">Cleans most doomsday strings that can be found in process hacker.</div>
-          <span class="na-pill">String Cleaner</span>
-        </div>
-        <div class="feature-item reveal">
-          <span class="feature-icon">⚡</span>
-          <div class="feature-name">DCOM Cleaner</div>
-          <div class="feature-desc">Cleans Traces in DCOM/Svchost in process hacker only leaves .jar files</div>
-          <span class="na-pill">DCOM Cleaner</span>
-        </div>
-        <div class="feature-item reveal">
-          <span class="feature-icon">🛡️</span>
-          <div class="feature-name">Ocean And Echo Blocker</div>
-          <div class="feature-desc">Blocks all tools made by Ocean and Echo Anticheat</div>
-          <span class="na-pill">Ocean & Echo Blocker</span>
-        </div>
-        <div class="feature-item reveal">
-          <span class="feature-icon">🔄</span>
-          <div class="feature-name">Journal Clearing & Spoofing</div>
-          <div class="feature-desc">It clears all .jar journal traces and spoofs new entries with spoofed time stamps to make them seem more legit</div>
-          <span class="na-pill">Journal Cleaner</span>
-        </div>
-        <div class="feature-item reveal">
-          <span class="feature-icon">📡</span>
-          <div class="feature-name">Clipboard Cleaning</div>
-          <div class="feature-desc">Clears the clipboard</div>
-          <span class="na-pill">Clipboard Cleaner</span>
-        </div>
-        <div class="feature-item reveal">
-          <span class="feature-icon">🎯</span>
-          <div class="feature-name">Constant Updates</div>
-          <div class="feature-desc">Constant Updates this bypass is always up to date with new screenshare techniques we always stay ahead</div>
-          <span class="na-pill">Constant Updates</span>
-        </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">⚡</div>
+        <div class="feature-name">DCOM Cleaner</div>
+        <div class="feature-desc">Clears DCOM/Svchost traces in Process Hacker. Only .jar files remain — nothing suspicious.</div>
+        <span class="feature-pill">Starter + Pro</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">🛡️</div>
+        <div class="feature-name">Ocean & Echo Blocker</div>
+        <div class="feature-desc">Blocks all tools used by Ocean and Echo Anticheat, neutralizing their detection capabilities.</div>
+        <span class="feature-pill">Pro Only</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">🔄</div>
+        <div class="feature-name">Journal Clearing & Spoofing</div>
+        <div class="feature-desc">Clears all .jar journal traces and injects spoofed entries with realistic timestamps for maximum legitimacy.</div>
+        <span class="feature-pill">Pro Only</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">📋</div>
+        <div class="feature-name">Clipboard Cleaner</div>
+        <div class="feature-desc">Wipes clipboard contents instantly — no leftover data, no loose ends during any inspection.</div>
+        <span class="feature-pill">Starter + Pro</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-box">🎯</div>
+        <div class="feature-name">Constant Updates</div>
+        <div class="feature-desc">We stay ahead of new screenshare techniques with rapid, continuous updates pushed the moment the landscape shifts.</div>
+        <span class="feature-pill">Starter + Pro</span>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- FAQ -->
-  <div class="faq-section" id="faq">
-    <div class="faq-inner">
-      <div class="reveal">
-        <div class="section-label">FAQ</div>
-        <h2 class="section-title">Common Questions</h2>
+<!-- FAQ -->
+<div id="faq">
+  <div class="faq-shell">
+    <div class="reveal">
+      <div class="sec-eyebrow">FAQ</div>
+      <h2 class="sec-title">Common Questions</h2>
+    </div>
+    <div style="margin-top:48px">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What is Lube Bypass?<span class="faq-toggle">+</span></button>
+        <div class="faq-a">Lube Bypass is a premium bypass service designed specifically for Doomsday Client, ensuring you remain undetected with a perfect 1/1 bypass success rate across all screenshare scenarios.</div>
       </div>
-      <div class="faq-list reveal">
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">What is Lube Bypass?<span class="faq-icon">+</span></button>
-          <div class="faq-a">Lube Bypass is a premium bypass service designed specifically for Doomsday Client, ensuring you remain undetected with a perfect 1/1 bypass success rate.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">How does the bypass work?<span class="faq-icon">+</span></button>
-          <div class="faq-a">Our bypass leverages advanced techniques to ensure Doomsday Client operates cleanly without triggering detection. We continuously update to stay ahead of patches.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">What's the difference between Lube Cleaner and Lube Bypass Pro?<span class="faq-icon">+</span></button>
-          <div class="faq-a">Lube Cleaner covers the essentials — solid bypass support and undetected status. Lube Bypass Pro unlocks all advanced features, priority alerts, and premium performance for power users.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">How quickly will I get access after purchase?<span class="faq-icon">+</span></button>
-          <div class="faq-a">Access is delivered automatically and near-instantly after your payment is confirmed. You'll receive your license key via Discord DM right away.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">What if the bypass gets detected?<span class="faq-icon">+</span></button>
-          <div class="faq-a">We monitor detection status around the clock. If anything changes, we push an immediate update and notify all users. Your safety is our top priority.</div>
-        </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How does the bypass work?<span class="faq-toggle">+</span></button>
+        <div class="faq-a">Our bypass uses advanced cleaning and spoofing techniques to ensure Doomsday Client leaves no detectable traces. We continuously update to stay ahead of any new detection methods.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What's the difference between Cleaner and Pro?<span class="faq-toggle">+</span></button>
+        <div class="faq-a">Lube Cleaner covers the essentials — solid bypass support and undetected status. Lube Bypass Pro unlocks all advanced features including Ocean/Echo Blocker, Journal Spoofing, Fileless Injection, and priority alerts.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How quickly will I get access after purchase?<span class="faq-toggle">+</span></button>
+        <div class="faq-a">Access is delivered near-instantly after your payment is confirmed. Open a ticket in our Discord and a staff member will get you set up right away.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What if the bypass status changes?<span class="faq-toggle">+</span></button>
+        <div class="faq-a">We monitor detection status around the clock. If anything changes, we push an immediate update and notify all users through Discord. Your safety is always the top priority.</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="cta-inner reveal">
-      <h2 class="cta-title">Ready to Stay<br />Undetected?</h2>
-      <p class="cta-sub">Join the cleanest bypass service for Doomsday Client. Perfect record. Always online. Lifetime access.</p>
-      <button class="btn-primary" onclick="openCheckout('Lube Bypass Pro','5.99')">Get Started Now</button>
-    </div>
+<!-- CTA -->
+<div class="cta-shell">
+  <div class="cta-block reveal">
+    <h2 class="cta-heading">Ready to Stay<br/><span>Undetected?</span></h2>
+    <p class="cta-body">Join the cleanest bypass service for Doomsday Client. Perfect record. Always online. Lifetime access from $2.99.</p>
+    <button class="btn-primary" onclick="openModal('Lube Bypass Pro','5.99')" style="font-size:1rem; padding:16px 40px;">
+      Get Started Now
+    </button>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <a href="#" class="footer-logo">Lube<span>.</span>Bypass</a>
-    <ul class="footer-links">
-      <li><a href="#">Products</a></li>
-      <li><a href="#">Status</a></li>
-      <li><a href="#">FAQ</a></li>
-      <li><a href="#">Support</a></li>
-    </ul>
-    <div class="footer-copy">© 2025 LubeBypass. All rights reserved.</div>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Lube<span>.</span>Bypass</a>
+  <ul class="footer-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="https://discord.gg/ZxyRHJJK6W" target="_blank">Support</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 LubeBypass. All rights reserved.</div>
+</footer>
 
-  <script>
-    /* ─────────────────────────────────────────────
-       CONFIGURATION
-    ───────────────────────────────────────────── */
-    const JSONBIN_BIN_ID  = '69ce8ba1aaba882197bb31ff';
-    const JSONBIN_API_KEY = '$2a$10$sg4dLaGOolL8Z0nLk0Clk.uUV/FmkUSTtksb4Ey85t/sEuQ1a0DJ2';
-    const POLL_INTERVAL   = 30000;
+<script>
+  /* ── CONFIG ── */
+  const BIN_ID  = '69ce8ba1aaba882197bb31ff';
+  const API_KEY = '$2a$10$sg4dLaGOolL8Z0nLk0Clk.uUV/FmkUSTtksb4Ey85t/sEuQ1a0DJ2';
+  const POLL    = 30000;
 
-    /* ─────────────────────────────────────────────
-       DISCORD MODAL
-    ───────────────────────────────────────────── */
-    function openCheckout(productName, price) {
-      document.getElementById('modal-product-name').textContent = productName;
-      document.getElementById('modal-product-price').textContent = '$' + price;
-      document.getElementById('checkout-modal').classList.add('open');
-      document.body.style.overflow = 'hidden';
+  /* ── MODAL ── */
+  function openModal(name, price) {
+    document.getElementById('modal-name').textContent  = name;
+    document.getElementById('modal-price').textContent = '$' + price;
+    document.getElementById('checkout-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('checkout-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeBg(e) {
+    if (e.target === document.getElementById('checkout-modal')) closeModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── STATUS ── */
+  async function fetchStatus() {
+    try {
+      const res  = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      applyStatus(data.record);
+      document.getElementById('ts').textContent = 'Live · synced ' + new Date().toLocaleTimeString();
+    } catch {
+      document.getElementById('ts').textContent = 'Status unreachable — retrying…';
     }
+  }
 
-    function closeCheckout() {
-      document.getElementById('checkout-modal').classList.remove('open');
-      document.body.style.overflow = '';
-    }
+  function applyStatus(r) {
+    const { status = 'Undetected', rate = '1/1', updated = 'Live' } = r;
+    const det = status.toLowerCase() === 'detected';
+    const upd = status.toLowerCase() === 'updating';
+    const cls = det ? 'detected' : upd ? 'updating' : '';
+    const col = det ? 'red' : upd ? 'yel' : '';
 
-    function closeCheckoutOnBg(e) {
-      if (e.target === document.getElementById('checkout-modal')) closeCheckout();
-    }
+    // nav pill
+    const np = document.getElementById('nav-pill');
+    np.className = 'status-pill ' + cls;
+    document.getElementById('nav-pill-text').textContent = status;
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeCheckout();
-    });
+    // hero badge
+    const hb = document.getElementById('hero-badge');
+    hb.className = 'hero-badge ' + cls;
+    document.getElementById('hero-badge-text').textContent =
+      (det ? '⚠ DETECTED' : upd ? '⏳ Updating' : 'Undetected') + ' · ' + rate + ' Bypass Rate · Always Online';
 
-    /* ─────────────────────────────────────────────
-       STATUS FETCH & UI UPDATE
-    ───────────────────────────────────────────── */
-    async function fetchStatus() {
-      try {
-        const res = await fetch(
-          `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`,
-          { headers: { 'X-Master-Key': JSONBIN_API_KEY } }
-        );
-        if (!res.ok) throw new Error('Fetch failed');
-        const data = await res.json();
-        applyStatus(data.record);
-        document.getElementById('last-fetched').textContent =
-          'Live · last synced ' + new Date().toLocaleTimeString();
-      } catch (e) {
-        document.getElementById('last-fetched').textContent =
-          'Could not reach status server — retrying…';
-        console.warn('Status fetch error:', e);
+    // hero stats
+    const sv = document.getElementById('stat-rate');
+    sv.textContent = rate;
+    sv.className = 'stat-val ' + (det ? 'r' : upd ? 'y' : 'g');
+
+    document.getElementById('stat-detect').textContent = det ? 'DETECTED' : upd ? 'Updating' : '100%';
+    document.getElementById('stat-detect').className   = 'stat-val ' + (det ? 'r' : upd ? 'y' : '');
+
+    document.getElementById('stat-live').textContent = det ? 'Alert' : upd ? 'Update' : 'Live';
+    document.getElementById('stat-live').className   = 'stat-val ' + (det ? 'r' : upd ? 'y' : 'g');
+
+    // metrics
+    flash('metric-rate'); flash('metric-detect'); flash('metric-updated');
+
+    const rv = document.getElementById('metric-rate-val');
+    rv.textContent = rate; rv.className = 'metric-val ' + col;
+
+    const fill = document.getElementById('meter-fill');
+    fill.style.width = det ? '8%' : upd ? '55%' : '100%';
+    fill.style.background = det ? 'linear-gradient(90deg,#ff4d4d,#ff9999)' : upd ? 'linear-gradient(90deg,#ffbe00,#ffe080)' : 'linear-gradient(90deg,#00ff88,#80ffba)';
+
+    const dv = document.getElementById('metric-detect-val');
+    dv.textContent = det ? 'Detected ✗' : upd ? 'Updating ⏳' : 'Undetected ✓';
+    dv.className = 'metric-val ' + col;
+
+    document.getElementById('metric-updated-val').textContent = updated;
+  }
+
+  function flash(id) {
+    const el = document.getElementById(id);
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+  }
+
+  fetchStatus();
+  setInterval(fetchStatus, POLL);
+
+  /* ── FAQ ── */
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const was  = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!was) item.classList.add('open');
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
       }
-    }
-
-    function applyStatus(record) {
-      const { status = 'Undetected', rate = '1/1', note, updated = 'Live' } = record;
-      const isDetected = status.toLowerCase() === 'detected';
-      const isUpdating = status.toLowerCase() === 'updating';
-      const colorClass = isDetected ? 'red' : isUpdating ? 'yellow' : 'green';
-      const badgeClass = isDetected ? 'detected' : isUpdating ? 'updating' : '';
-
-      const navBadge = document.getElementById('nav-live-badge');
-      navBadge.className = 'nav-live-badge ' + badgeClass;
-      document.getElementById('nav-live-text').textContent = status;
-
-      const heroBadge = document.getElementById('hero-badge');
-      heroBadge.className = 'hero-badge ' + badgeClass;
-      document.getElementById('hero-badge-text').textContent =
-        (isDetected ? '⚠ DETECTED' : isUpdating ? '⏳ Updating' : 'Undetected')
-        + ' · ' + rate + ' Bypass Rate · Always Online';
-
-      document.getElementById('stat-rate').innerHTML = `<span class="${colorClass}">${rate}</span>`;
-      document.getElementById('stat-detect').innerHTML =
-        isDetected ? '<span class="red">Detected</span>'
-        : isUpdating ? '<span class="yellow">Updating</span>'
-        : '100%';
-      document.getElementById('stat-live').innerHTML =
-        `<span class="${colorClass}">${isDetected ? 'Alert' : isUpdating ? 'Updating' : 'Live'}</span>`;
-
-      flashMetric('metric-rate');
-      flashMetric('metric-detect');
-      flashMetric('metric-updated');
-
-      const rateVal = document.getElementById('metric-rate-val');
-      rateVal.textContent = rate;
-      rateVal.className = 'metric-value ' + colorClass;
-
-      const bar = document.getElementById('rate-bar');
-      bar.style.width = isDetected ? '10%' : isUpdating ? '60%' : '100%';
-      bar.style.background = isDetected
-        ? 'linear-gradient(90deg, #ef4444, #fca5a5)'
-        : isUpdating ? 'linear-gradient(90deg, #f59e0b, #fde68a)'
-        : 'linear-gradient(90deg, #22c55e, #86efac)';
-
-      const detectVal = document.getElementById('metric-detect-val');
-      detectVal.textContent = isDetected ? 'Detected ✗' : isUpdating ? 'Updating ⏳' : 'Undetected ✓';
-      detectVal.className = 'metric-value ' + colorClass;
-
-      document.getElementById('metric-updated-val').textContent = updated;
-    }
-
-    function flashMetric(id) {
-      const el = document.getElementById(id);
-      el.classList.remove('flash');
-      void el.offsetWidth;
-      el.classList.add('flash');
-    }
-
-    fetchStatus();
-    setInterval(fetchStatus, POLL_INTERVAL);
-
-    /* ─────────────────────────────────────────────
-       FAQ TOGGLE
-    ───────────────────────────────────────────── */
-    function toggleFaq(btn) {
-      const item = btn.parentElement;
-      const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!wasOpen) item.classList.add('open');
-    }
-
-    /* ─────────────────────────────────────────────
-       SCROLL REVEAL
-    ───────────────────────────────────────────── */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    /* ─────────────────────────────────────────────
-       NAV SHADOW ON SCROLL
-    ───────────────────────────────────────────── */
-    window.addEventListener('scroll', () => {
-      document.querySelector('nav').style.boxShadow =
-        window.scrollY > 20 ? '0 4px 30px rgba(0,0,0,0.06)' : 'none';
     });
-  </script>
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* ── NAV SHADOW ── */
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor =
+      window.scrollY > 20 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)';
+  });
+</script>
 </body>
 </html>
